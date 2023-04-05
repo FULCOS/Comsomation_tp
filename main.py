@@ -1,9 +1,13 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
+
+# Titre de l'application
+st.title("Prédiction de la consommation électrique")
 
 # Charger les données depuis un fichier CSV
 df = pd.read_csv("donnees.csv", encoding="ISO-8859-1", sep=",")
@@ -33,9 +37,9 @@ y_pred = model.predict(X_test)
 
 # Calculer la racine de l'erreur quadratique moyenne (RMSE) pour évaluer les performances du modèle
 rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-print("RMSE:", rmse)
+st.write("RMSE:", rmse)
 r2 = r2_score(y_test, y_pred)
-print('R²:', r2)
+st.write('R²:', r2)
 
 # Prédire la consommation électrique pour les x prochaines lignes
 last_date = df.index[-1]
@@ -54,4 +58,6 @@ ax.set_xlabel('Date')
 ax.set_ylabel('Consommation Prédite')
 ax.set_title('Consommation Prédite vs. Date')
 ax.legend()
-plt.show()
+
+# Afficher le graphique dans Streamlit
+st.pyplot(fig)
